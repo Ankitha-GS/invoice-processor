@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ledger — Invoice Intake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">§</span>
+    <h1>Ledger</h1>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="intake">Intake</button>
+    <button class="tab" data-tab="dashboard">Ledger book</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- INTAKE VIEW -->
+  <section id="intake" class="view active">
+    <div class="intake-grid">
+
+      <div class="panel upload-panel">
+        <h2>Bring in an invoice</h2>
+        <p class="lede">Drop a PDF, or run one of the prepared test cases below.</p>
+
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept="application/pdf" hidden>
+          <span class="dz-label" id="dzLabel">Drop a PDF here, or click to choose one</span>
+        </label>
+
+        <div class="sample-set">
+          <p class="sample-heading">Prepared test cases</p>
+          <div class="sample-list" id="sampleList"></div>
+        </div>
+      </div>
+
+      <div class="panel run-panel">
+        <h2>Run log</h2>
+        <p class="lede" id="runLede">Nothing running yet — pick an invoice.</p>
+        <ol class="stage-list" id="stageList"></ol>
+        <div class="decision-banner" id="decisionBanner" hidden></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DASHBOARD VIEW -->
+  <section id="dashboard" class="view">
+    <div class="panel">
+      <div class="dash-header">
+        <div>
+          <h2>Run history</h2>
+          <p class="lede">Every invoice processed, most recent first.</p>
+        </div>
+        <button class="ghost-btn" id="resetBtn">Reset history</button>
+      </div>
+
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>Run</th>
+            <th>Vendor</th>
+            <th>Invoice #</th>
+            <th>PO</th>
+            <th class="num">Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="runsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="panel po-panel">
+      <h2>PO balances</h2>
+      <p class="lede">Remaining balance per purchase order, updated as invoices are approved.</p>
+      <table class="ledger-table" id="poTable">
+        <thead>
+          <tr><th>PO</th><th>Vendor</th><th class="num">Original</th><th class="num">Remaining</th></tr>
+        </thead>
+        <tbody id="poBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="run-detail-overlay" id="detailOverlay" hidden>
+    <div class="run-detail-panel">
+      <button class="close-btn" id="closeDetail">Close</button>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

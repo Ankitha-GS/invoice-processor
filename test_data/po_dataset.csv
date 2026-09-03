@@ -1,0 +1,8 @@
+po_number,vendor_name,po_amount,approved_vendor
+PO-1001,Acme Office Supplies,1200.00,true
+PO-1002,Northwind Logistics,4800.00,true
+PO-1003,Bluepeak Consulting,15000.00,true
+PO-1004,Bluepeak Consulting,15000.00,true
+PO-1005,Ridgeline IT Services,3000.00,true
+PO-1006,Ridgeline IT Services,6000.00,true
+PO-1007,Fenwick Marketing Group,2500.00,false
