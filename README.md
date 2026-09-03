@@ -16,10 +16,7 @@ python3 generate_test_invoices.py                          # builds the 7 test P
 python3 app.py                                              # starts the server
 ```
 
-Open **http://localhost:5000**.
 
-Optional: to enable LLM-based extraction (more robust to messy vendor
-formatting than the regex fallback), set an API key before starting:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
