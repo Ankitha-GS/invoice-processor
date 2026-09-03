@@ -1,0 +1,5 @@
+instance/app.db
+instance/uploads/*
+__pycache__/
+*.pyc
+.venv/
