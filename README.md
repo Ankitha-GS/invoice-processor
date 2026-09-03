@@ -96,7 +96,7 @@ without spinning up the server or touching a file.
      is what makes split billing across multiple invoices work correctly)
    - Over the remaining balance beyond tolerance → `NEEDS_REVIEW`
 
-## 5. Edge cases (5 built, guide asked for 2–4)
+## 5. Edge cases 
 
 | # | Test file | What it exercises | Expected result |
 |---|---|---|---|
@@ -110,65 +110,7 @@ Run `04` *after* `01` (the happy path) for the duplicate check to trigger —
 the dashboard needs to see the first one in history first. The Intake tab's
 sample buttons are in the right order for this already.
 
-## 6. Design decisions worth explaining in the interview
 
-- **Regex fallback + optional LLM extraction, not LLM-only.** A live demo
-  can't depend on an external API being up or a key being configured
-  correctly in the moment. The regex extractor is deliberately conservative
-  — it returns `None` rather than guessing wrong, which is what feeds the
-  "missing fields" edge case. LLM extraction is available as a strict
-  upgrade when a key is present, since it should handle vendor formatting
-  variance far better in production.
-- **Remaining-balance PO matching instead of one-shot PO consumption.** Real
-  vendors split billing across a PO. Tracking remaining balance in
-  `po_balances` (rather than marking a PO "used" after one invoice) is what
-  makes the split-PO edge case behave correctly instead of falsely flagging
-  the second invoice as a mismatch.
-- **Decision pipeline stops early on duplicates/unapproved vendors** rather
-  than running the (irrelevant) PO-matching and amount-checking stages
-  afterward — cheaper, and the reasoning trail reads cleaner because it
-  doesn't show irrelevant checks after a hard stop.
-- **Flask + vanilla JS instead of a React build**, even though React was on
-  the table. For a process that has to run live and reliably during an
-  interview, removing a build step (npm install / webpack) removes a
-  failure mode. The frontend still gets the required live run view and
-  dashboard; it just doesn't need a bundler to do it.
 
-## 7. What I'd build next with more time
 
-- OCR fallback (`pytesseract`) for scanned/image invoices — right now the
-  extractor assumes a text-layer PDF.
-- Confidence scoring surfaced per extracted field, not just per PO match, so
-  a human reviewer knows exactly which field to double-check.
-- A "resolve" action in the dashboard so a human can act on a
-  `NEEDS_REVIEW` invoice (approve/reject with a note) rather than just view it.
 
-## 8. Testing
-
-```bash
-# quick sanity check of extraction against the generated PDFs
-python3 -c "
-import extraction
-d = extraction.extract_invoice('test_data/invoices/01_happy_path_acme.pdf')
-print(d)
-"
-
-# full pipeline test via the API once the server is running
-curl -X POST http://localhost:5000/api/process-sample \
-  -H "Content-Type: application/json" \
-  -d '{"filename": "01_happy_path_acme.pdf"}'
-```
-
-## 9. Demo video script (5 minutes)
-
-1. **(30s)** One-sentence framing: what the process does and why it matters
-   (AP team drowning in manual PDF-to-decision work).
-2. **(90s)** Happy path: run `01_happy_path_acme.pdf` live, narrate each
-   stage as it appears, land on `APPROVED`.
-3. **(2 min)** Run 2–3 edge cases back to back: amount mismatch, missing
-   fields, duplicate. For each, say in one sentence *why* it's a real
-   scenario and what the process did differently.
-4. **(45s)** Split-PO case: show the PO balance draining across two
-   invoices in the Ledger book tab — this is the one that best shows
-   deliberate design, not just "PDF parsing."
-5. **(15s)** Close: what you'd build next, in one sentence.
