@@ -6,7 +6,7 @@ Tiny SQLite persistence layer. Two tables:
   po_balances      - remaining balance per PO (so split invoices work across runs)
 
 Kept deliberately simple (no ORM) since the case study cares about the
-process logic, not the persistence layer.
+process logic, not the persistence layer
 """
 
 import sqlite3
