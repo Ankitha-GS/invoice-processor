@@ -5,7 +5,7 @@ Tiny SQLite persistence layer. Two tables:
   runs             - one row per invoice processed (for the dashboard)
   po_balances      - remaining balance per PO (so split invoices work across runs)
 
-Kept deliberately simple (no ORM) since the case study cares about theee
+Kept deliberately simple (no ORM) since the case study cares about the
 process logic, not the persistence layer
 """
 
