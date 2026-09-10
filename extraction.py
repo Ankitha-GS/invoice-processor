@@ -1,7 +1,7 @@
 """
 extraction.py
 -------------
-Turns a raw invoice PDF into a structured dict.
+Turns a raw invoice PDF into a structured dict
 
 Two extraction backends, chosen automatically:
   1. LLM extraction (Claude) if ANTHROPIC_API_KEY is set in the environment.
